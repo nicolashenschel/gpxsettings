@@ -2,7 +2,6 @@ package gpxsettings
 
 import (
 	"github.com/msbranco/goconfig"
-	"strconv"
 )
 
 type Settings struct {
@@ -14,46 +13,41 @@ type Settings struct {
 	HRZone5 int
 }
 
+
 func LoadSettings(setupFile string) (*Settings, error) {
-	c, error   := goconfig.ReadConfigFile("config.cfg")
+	c, error   := goconfig.ReadConfigFile(setupFile)
 	if error != nil {
 		return nil, error
 	}
-	
-	hrzone1 := 50
-	p, _   := c.GetString("Config","HRZone1")
-	if hrzone1, error = strconv.Atoi(p); error == nil {
-		hrzone1  = 50
-	}
-	
-	hrzone2  := 60
-	p, _   = c.GetString("Config","HRZone2")
-	if hrzone2, error = strconv.Atoi(p); error == nil {
-		hrzone2  = 60
+
+	hrzone1, error := c.GetInt("Config","HRZone1")
+	if error != nil {
+		return nil, error
 	}
 
-	hrzone3  := 70
-	p, _   = c.GetString("Config","HRZone3")
-	if hrzone3, error = strconv.Atoi(p); error == nil {
-		hrzone3  = 70
+	hrzone2, error := c.GetInt("Config","HRZone2")
+	if error != nil {
+		return nil, error
 	}
 
-	hrzone4  := 80
-	p, _   = c.GetString("Config","HRZone4")
-	if hrzone4, error = strconv.Atoi(p); error == nil {
-		hrzone4  = 80
+	hrzone3, error := c.GetInt("Config","HRZone3")
+	if error != nil {
+		return nil, error
 	}
 
-	hrzone5  := 90
-	p, _   = c.GetString("Config","HRZone5")
-	if hrzone5, error = strconv.Atoi(p); error == nil {
-		hrzone5  = 90
+	hrzone4, error := c.GetInt("Config","HRZone4")
+	if error != nil {
+		return nil, error
 	}
 
-	resthr  := 50
-	p, _   = c.GetString("Config","RestHR")
-	if resthr, error = strconv.Atoi(p); error == nil {
-		resthr  = 50
+	hrzone5, error := c.GetInt("Config","HRZone5")
+	if error != nil {
+		return nil, error
+	}
+
+	resthr, error := c.GetInt("Config","RestHR")
+	if error != nil {
+		return nil, error
 	}
 
 	return &Settings{resthr, hrzone1,hrzone2,hrzone3,hrzone4,hrzone5}, nil	
